@@ -3,257 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EcoAgro Monitor</title>
+<title>AgroWater - Calculadora de Consumo de Água</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
 
-body{
-    background:#f0f8f0;
-}
+    body{
+        background:#e8f5e9;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        padding:20px;
+    }
 
-header{
-    background:#2e7d32;
-    color:white;
-    text-align:center;
-    padding:25px;
-}
+    .container{
+        background:white;
+        width:100%;
+        max-width:500px;
+        padding:30px;
+        border-radius:15px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.2);
+    }
 
-header h1{
-    margin-bottom:10px;
-}
+    h1{
+        text-align:center;
+        color:#2e7d32;
+        margin-bottom:20px;
+    }
 
-.container{
-    width:90%;
-    max-width:1000px;
-    margin:auto;
-    padding:20px;
-}
+    label{
+        display:block;
+        margin-top:15px;
+        font-weight:bold;
+    }
 
-.card{
-    background:white;
-    padding:20px;
-    margin:20px 0;
-    border-radius:15px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
+    input, select{
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+        border:1px solid #ccc;
+        border-radius:8px;
+    }
 
-h2{
-    color:#2e7d32;
-    margin-bottom:15px;
-}
+    button{
+        width:100%;
+        padding:12px;
+        margin-top:20px;
+        background:#2e7d32;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:16px;
+    }
 
-input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
-}
+    button:hover{
+        background:#1b5e20;
+    }
 
-button{
-    background:#2e7d32;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-top:10px;
-}
+    .resultado{
+        margin-top:20px;
+        padding:15px;
+        border-radius:10px;
+        background:#f1f8e9;
+        display:none;
+    }
 
-button:hover{
-    background:#1b5e20;
-}
-
-.resultado{
-    margin-top:15px;
-    font-weight:bold;
-    font-size:18px;
-}
-
-.verde{
-    color:green;
-}
-
-.amarelo{
-    color:orange;
-}
-
-.vermelho{
-    color:red;
-}
-
-.lista{
-    margin-top:15px;
-}
-
-.lista li{
-    margin-bottom:8px;
-}
+    .resultado h2{
+        color:#2e7d32;
+        margin-bottom:10px;
+    }
 </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🌱 EcoAgro Monitor</h1>
-    <p>Agro Forte, Futuro Sustentável</p>
-</header>
-
 <div class="container">
+    <h1>🌱 AgroWater</h1>
 
-    <div class="card">
-        <h2>💧 Calculadora de Consumo de Água</h2>
+    <label>Cultura</label>
+    <select id="cultura">
+        <option>Soja</option>
+        <option>Milho</option>
+        <option>Feijão</option>
+        <option>Hortaliças</option>
+    </select>
 
-        <label>Área Plantada (hectares)</label>
-        <input type="number" id="area">
+    <label>Área Plantada (hectares)</label>
+    <input type="number" id="area" placeholder="Ex: 5">
 
-        <label>Irrigação diária (litros por hectare)</label>
-        <input type="number" id="irrigacao">
+    <label>Irrigação Diária (litros)</label>
+    <input type="number" id="agua" placeholder="Ex: 12000">
 
-        <button onclick="calcularAgua()">
-            Calcular
-        </button>
+    <button onclick="calcular()">Calcular Consumo</button>
 
-        <div id="resultadoAgua" class="resultado"></div>
-        <div id="dica"></div>
+    <div class="resultado" id="resultado">
+        <h2>Resultado</h2>
+        <p id="consumo"></p>
+        <p id="classificacao"></p>
+        <p id="dica"></p>
     </div>
-
-    <div class="card">
-        <h2>🌿 Indicador de Sustentabilidade</h2>
-
-        <label>Você recicla resíduos rurais? (0 ou 1)</label>
-        <input type="number" id="reciclagem">
-
-        <label>Possui preservação de mata nativa? (0 ou 1)</label>
-        <input type="number" id="mata">
-
-        <label>Utiliza energia renovável? (0 ou 1)</label>
-        <input type="number" id="energia">
-
-        <label>Faz compostagem? (0 ou 1)</label>
-        <input type="number" id="compostagem">
-
-        <button onclick="calcularSustentabilidade()">
-            Avaliar
-        </button>
-
-        <div id="resultadoSustentabilidade" class="resultado"></div>
-    </div>
-
-    <div class="card">
-        <h2>📚 Dicas Sustentáveis</h2>
-
-        <ul class="lista">
-            <li>Utilize irrigação por gotejamento.</li>
-            <li>Preserve nascentes e matas ciliares.</li>
-            <li>Faça reciclagem de resíduos agrícolas.</li>
-            <li>Reduza desperdícios de água.</li>
-            <li>Invista em energia solar no campo.</li>
-        </ul>
-    </div>
-
 </div>
 
 <script>
+function calcular() {
+    const area = Number(document.getElementById("area").value);
+    const agua = Number(document.getElementById("agua").value);
 
-function calcularAgua(){
-
-    let area =
-        parseFloat(document.getElementById("area").value);
-
-    let irrigacao =
-        parseFloat(document.getElementById("irrigacao").value);
-
-    if(isNaN(area) || isNaN(irrigacao)){
-        alert("Preencha todos os campos.");
+    if(area <= 0 || agua <= 0){
+        alert("Preencha os campos corretamente!");
         return;
     }
 
-    let consumo = area * irrigacao;
+    const consumoMensal = agua * 30;
 
     let classificacao = "";
-    let classe = "";
     let dica = "";
 
-    if(consumo < 5000){
-        classificacao = "Uso Sustentável";
-        classe = "verde";
-        dica =
-        "Parabéns! Seu consumo está dentro do recomendado.";
+    if(consumoMensal < 100000){
+        classificacao = "Baixo";
+        dica = "Excelente! Continue utilizando práticas sustentáveis.";
     }
-    else if(consumo < 15000){
-        classificacao = "Atenção";
-        classe = "amarelo";
-        dica =
-        "Considere revisar os horários de irrigação.";
+    else if(consumoMensal < 500000){
+        classificacao = "Moderado";
+        dica = "Considere sensores de umidade para otimizar a irrigação.";
     }
     else{
-        classificacao = "Consumo Elevado";
-        classe = "vermelho";
-        dica =
-        "Sugestão: utilizar irrigação por gotejamento para economizar água.";
+        classificacao = "Alto";
+        dica = "Avalie irrigação por gotejamento e captação de água da chuva.";
     }
 
-    document.getElementById("resultadoAgua").innerHTML =
-    `
-    Consumo diário: ${consumo.toLocaleString()} litros<br>
-    <span class="${classe}">
-    ${classificacao}
-    </span>
-    `;
+    document.getElementById("consumo").innerHTML =
+        `<strong>Consumo Mensal:</strong> ${consumoMensal.toLocaleString('pt-BR')} litros`;
+
+    document.getElementById("classificacao").innerHTML =
+        `<strong>Classificação:</strong> ${classificacao}`;
 
     document.getElementById("dica").innerHTML =
-    `<br>💡 ${dica}`;
+        `<strong>Dica Sustentável:</strong> ${dica}`;
+
+    document.getElementById("resultado").style.display = "block";
 }
-
-function calcularSustentabilidade(){
-
-    let reciclagem =
-    Number(document.getElementById("reciclagem").value);
-
-    let mata =
-    Number(document.getElementById("mata").value);
-
-    let energia =
-    Number(document.getElementById("energia").value);
-
-    let compostagem =
-    Number(document.getElementById("compostagem").value);
-
-    let pontos = 0;
-
-    pontos += reciclagem * 25;
-    pontos += mata * 25;
-    pontos += energia * 25;
-    pontos += compostagem * 25;
-
-    let nivel = "";
-
-    if(pontos <= 40){
-        nivel = "🔴 Precisa Melhorar";
-    }
-    else if(pontos <= 70){
-        nivel = "🟡 Bom";
-    }
-    else{
-        nivel = "🟢 Excelente";
-    }
-
-    document.getElementById(
-        "resultadoSustentabilidade"
-    ).innerHTML =
-    `
-    Pontuação: ${pontos}/100 <br>
-    ${nivel}
-    `;
-}
-
 </script>
 
 </body>
